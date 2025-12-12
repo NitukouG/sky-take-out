@@ -7,7 +7,7 @@ import com.sky.entity.Employee;
 import com.sky.result.PageResult;
 
 public interface EmployeeService {
-
+    
     /**
      * 员工登录
      * @param employeeLoginDTO
@@ -19,4 +19,13 @@ public interface EmployeeService {
     void save(EmployeeDTO employee);
 
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+
+    void startOrStop(Integer status, Long id);
+
+    Employee query(Long id);
+
+    Employee getById(Long id);
+
+    void update(EmployeeDTO employeeDTO);
 }

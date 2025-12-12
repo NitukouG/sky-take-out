@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,6 +100,35 @@ public class EmployeeController {
 
         return Result.success(pageResult);
     }
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用员工ID")
+    public Result startOrStop(@PathVariable("status") Integer status, Long id){
+        log.info("启用禁用账号：{}，{}",status, id);
+        employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("查询员工ID")
+    public Result<Employee> getById(@PathVariable Long id){
+        log.info("查询员工：{}", id);
+        Employee employee =  employeeService.getById(id);
+        return Result.success(employee);
+    }
+    @PutMapping
+    @ApiOperation("编辑员工操作")
+    public Result<Employee> updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+//        Employee employee = employeeService.getById(id);
+//        log.info("修改员工信息: {}",employee);
+        employeeService.update(employeeDTO);
+
+        return Result.success();
+    }
+
+
+
+
 
 
 }
