@@ -37,3 +37,9 @@ sky:
     admin-ttl: 720000000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+
+  file:
+    upload:
+      path: E:\\BaiduNetdiskDownload\\苍穹外卖\\资料\\资料\\day01\\后端初始工程\\file
+
+

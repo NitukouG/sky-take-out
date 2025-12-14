@@ -3,4 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.DishMapper">
     <!--   parameterType 是干什么的？	告诉 MyBatis SQL 的参数类型是什么-->
+<!--    使用生成的主键值 并将id赋值给id-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        Insert INTO
+            dish(NAME, CATEGORY_ID, PRICE, IMAGE, DESCRIPTION, STATUS, CREATE_TIME, UPDATE_TIME, CREATE_USER, UPDATE_USER)
+        values
+            (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
 </mapper>

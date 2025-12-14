@@ -2,6 +2,7 @@ package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
 import com.sky.json.JacksonObjectMapper;
+import com.sky.properties.UploadProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+
+    @Autowired
+    private UploadProperties uploadProperties;
 
     /**
      * 注册自定义拦截器
@@ -72,6 +76,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         System.out.println("放行静态资源");
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");  //放行 Swagger 主页面：doc.html
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");  // 放行 Swagger 所需的 js/css 等资源：/webjars/**
+//        匹配所有以 /upload/ 开头的请求
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations("file:" + uploadProperties.getPath() + "/");
+
+
     }
 
     /**
