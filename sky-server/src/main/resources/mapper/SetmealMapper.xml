@@ -2,5 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.SetmealMapper">
+    <insert id="InsertBatch" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO setmeal(CATEGORY_ID, NAME, PRICE, STATUS, DESCRIPTION, IMAGE, CREATE_TIME, UPDATE_TIME, CREATE_USER, UPDATE_USER)
+        values (#{categoryId}, #{name}, #{price}, #{status}, #{description}, #{image}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
     <!--   parameterType 是干什么的？	告诉 MyBatis SQL 的参数类型是什么-->
+
+    <update id="update">
+# 动态sql 用于更新套餐信息
+        update setmeal
+        <set>
+            <if test="categoryId != null"> category_id = #{categoryId}, </if>
+            <if test="name != null">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from setmeal
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+# 分页查询
+        select setmeal.*,category.name as category_name
+        from setmeal LEFT JOIN category ON setmeal.category_id = category.id
+        <where>
+            <if test="status != null">
+                and setmeal.status like concat('%', #{status}, '%')
+            </if>
+            <if test="name != null">
+                and setmeal.name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and setmeal.category_id like concat('%', #{categoryId}, '%')
+            </if>
+        </where>
+        order by setmeal.create_time desc
+    </select>
+
 </mapper>

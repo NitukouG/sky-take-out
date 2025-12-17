@@ -8,6 +8,7 @@ import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
+import com.sky.vo.DishOverViewVO;
 import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -69,6 +70,23 @@ public class DishController {
         log.info("修改菜品以及口味:{}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
         return Result.success();
+    }
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品停售")
+    public Result stopOrStart(@PathVariable Integer status, @RequestParam Long id){
+        log.info("菜品启停:{}, {}", status, id);
+        dishService.stopOrStart(status, id);
+        return Result.success();
+    }
+
+    @GetMapping("/list")
+    @ApiOperation("通过分类id查询菜品")
+    public Result getByCategoryId(@RequestParam Long categoryId){
+        log.info("通过分类id查询菜品:{}", categoryId);
+
+        List<Dish> dishs = dishService.getByCategoryId(categoryId);
+        return Result.success(dishs);
     }
 
 }
