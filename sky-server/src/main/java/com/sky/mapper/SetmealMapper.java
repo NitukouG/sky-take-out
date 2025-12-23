@@ -44,4 +44,7 @@ public interface SetmealMapper {
 
     @Select("select * from setmeal_dish LEFT JOIN dish ON dish_id = dish.id where setmeal_dish.setmeal_id = #{setmealId}")
     List<DishItemVO> getDishItemBySetmealId(Long setmealId);
+
+    @Select("select * from setmeal where id = #{id}")
+    Setmeal getByIdUser(Long id);
 }

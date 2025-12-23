@@ -4,3 +4,7 @@
 *.class
 *Test.java
 **/test/
+
+# local config
+application-dev.yml
+application-prod.yml
